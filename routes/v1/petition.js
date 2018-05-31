@@ -1,5 +1,5 @@
 const express = require('express')
-const sql = require('sql-loader')
+const sql = require('sql-loader')()
 const router = express.Router()
 
 //전체 청원 가져오기
