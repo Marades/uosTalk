@@ -24,25 +24,32 @@ router.get('/', (req, res) => {
 // 청원 작성
 router.post('/', (req, res) => {
     console.log(req.body)
-    const insert_data = {
-        title: req.body.title,
-        content: req.body.content
+    if(req.body.title !== ""){
+        const insert_data = {
+            title: req.body.title,
+            content: req.body.content
+        }
+        pool.query(sql.petition.insert, insert_data, (err, rows) => {
+            if(err) {
+                console.log(err)
+                res.json({
+                    msg: 'error occur',
+                    err: err
+                })
+            }
+            else {
+                console.log(insert_data)
+                res.json({
+                    msg: 'success',
+                })
+            }
+        })
     }
-    pool.query(sql.petition.insert, insert_data, (err, rows) => {
-        if(err) {
-            console.log(err)
-            res.json({
-                msg: 'error occur',
-                err: err
-            })
-        }
-        else {
-            console.log(insert_data)
-            res.json({
-                msg: 'success',
-            })
-        }
-    })
+    else {
+        res.json({
+            msg: 'title is empty'
+        })
+    }
 })
 
 module.exports = router
